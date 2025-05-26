@@ -4,6 +4,7 @@ import {
   getWeatherByCoords,
   getForecast,
   getForecastByCoords,
+  getAQIByCoords,
 } from "../services/weatherApi";
 
 /**
@@ -66,5 +67,21 @@ export const useForecastByCoords = (lat, lon) => {
     queryFn: () => getForecastByCoords(lat, lon), // Function gọi API forecast với tọa độ
     enabled: !!(lat && lon), // Chỉ gọi khi có đủ tọa độ
     retry: 2,
+  });
+};
+
+/**
+ * Custom hook để lấy chỉ số chất lượng không khí (AQI) theo tọa độ GPS
+ *
+ * @param {number} lat - Vĩ độ
+ * @param {number} lon - Kinh độ
+ * @returns {Object} - Object chứa data, loading, error từ React Query
+ */
+export const useAQIByCoords = (lat, lon) => {
+  return useQuery({
+    queryKey: ["aqi", lat, lon],
+    queryFn: () => getAQIByCoords(lat, lon),
+    enabled: !!(lat && lon),
+    retry: 1,
   });
 };

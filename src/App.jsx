@@ -9,6 +9,7 @@ import {
   useWeatherByCoords,
   useForecast,
   useForecastByCoords,
+  useAQIByCoords,
 } from "./hooks/useWeather";
 import { getSearchHistory, addToSearchHistory } from "./utils/localStorage";
 import "./styles/App.css";
@@ -59,6 +60,16 @@ function App() {
     refetch: refetchCoords,
   } = useWeatherByCoords(coords.lat, coords.lon);
 
+  // Hook lấy chỉ số chất lượng không khí (AQI) theo tọa độ
+  const {
+    data: aqiData,
+    isLoading: isAQILoading,
+    error: aqiError,
+  } = useAQIByCoords(
+    coords.lat || weatherData?.coord?.lat,
+    coords.lon || weatherData?.coord?.lon
+  );
+
   // Hook lấy dự báo thời tiết theo tên thành phố
   const { data: forecastData, isLoading: isLoadingForecast } =
     useForecast(searchCity);
@@ -69,11 +80,11 @@ function App() {
 
   // === COMPUTED VALUES ===
 
-  // Tổng hợp loading state từ cả hai phương thức tìm kiếm
-  const isLoading = isLoadingCity || isLoadingCoords;
+  // Tổng hợp loading state từ cả ba phương thức tìm kiếm
+  const isLoading = isLoadingCity || isLoadingCoords || isAQILoading;
 
-  // Tổng hợp error state từ cả hai phương thức
-  const error = cityError || coordsError;
+  // Tổng hợp error state từ cả ba phương thức
+  const error = cityError || coordsError || aqiError;
 
   // Chọn data thời tiết hiện tại (ưu tiên city search trước coords)
   const currentWeatherData = weatherData || coordsWeatherData;
@@ -209,6 +220,7 @@ function App() {
             <WeatherCard
               weatherData={currentWeatherData}
               temperatureUnit={temperatureUnit}
+              aqi={aqiData}
             />
 
             {/* Forecast component - chỉ hiển thị khi có data và không loading */}

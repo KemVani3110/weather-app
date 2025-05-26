@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   Thermometer,
   Droplets,
@@ -13,16 +13,15 @@ import {
 } from "lucide-react";
 import { convertTemperature, convertWindSpeed } from "../utils/unitConverter";
 import "../styles/WeatherCard.css";
-import { getAQIByCoords } from "../services/weatherApi";
 
 /**
  * Component hiển thị thông tin thời tiết hiện tại
  * @param {Object} weatherData - Dữ liệu thời tiết từ API
  * @param {string} temperatureUnit - Đơn vị nhiệt độ ('celsius' hoặc 'fahrenheit')
+ * @param {number} aqi - Chỉ số chất lượng không khí (AQI)
  */
-const WeatherCard = ({ weatherData, temperatureUnit }) => {
+const WeatherCard = ({ weatherData, temperatureUnit, aqi }) => {
   const [copied, setCopied] = useState(false); // Trạng thái đã sao chép
-  const [aqi, setAqi] = useState(null); // AQI (chỉ số chất lượng không khí)
 
   // Nếu không có dữ liệu thời tiết thì không hiển thị gì cả
   if (!weatherData) return null;
@@ -35,7 +34,6 @@ const WeatherCard = ({ weatherData, temperatureUnit }) => {
     wind: { speed },
     sys: { country, sunrise, sunset },
     visibility,
-    coord, // Lấy toạ độ để fetch AQI
   } = weatherData;
 
   // Memo hóa các giá trị không cần tính lại mỗi lần render
@@ -81,22 +79,6 @@ const WeatherCard = ({ weatherData, temperatureUnit }) => {
       minute: "2-digit",
     });
   }, []);
-
-  // Lấy AQI từ toạ độ
-  useEffect(() => {
-    const fetchAQI = async () => {
-      if (!coord) return;
-
-      try {
-        const aqiValue = await getAQIByCoords(coord.lat, coord.lon);
-        setAqi(aqiValue);
-      } catch (error) {
-        console.error("Lỗi khi lấy chỉ số chất lượng không khí (AQI):", error);
-      }
-    };
-
-    fetchAQI();
-  }, [coord]);
 
   // Hàm hiển thị mức độ chất lượng không khí
   const getAqiLabel = (aqiValue) => {
