@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Cloud, AlertCircle, Search } from "lucide-react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -38,8 +39,11 @@ function App() {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>🌤️ Ứng Dụng Thời Tiết</h1>
-        <p>Tra cứu thời tiết nhanh chóng và chính xác</p>
+        <div className="header-content">
+          <Cloud size={48} className="header-icon" />
+          <h1>Ứng Dụng Thời Tiết</h1>
+          <p>Tra cứu thời tiết nhanh chóng và chính xác</p>
+        </div>
       </header>
 
       <main className="app-main">
@@ -49,7 +53,8 @@ function App() {
 
         {error && (
           <div className="error-message">
-            <p>❌ {error.message}</p>
+            <AlertCircle size={20} className="error-icon" />
+            <p>{error.message}</p>
           </div>
         )}
 
@@ -59,9 +64,9 @@ function App() {
 
         {!currentWeatherData && !isLoading && !error && (
           <div className="welcome-message">
+            <Search size={48} className="welcome-icon" />
             <p>
-              🔍 Nhập tên thành phố hoặc sử dụng vị trí hiện tại để xem thời
-              tiết
+              Nhập tên thành phố hoặc sử dụng vị trí hiện tại để xem thời tiết
             </p>
           </div>
         )}
