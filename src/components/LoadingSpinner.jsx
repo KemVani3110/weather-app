@@ -1,6 +1,6 @@
-import React from 'react';
-import { Loader2 } from 'lucide-react';
-import '../styles/LoadingSpinner.css';
+import React from "react";
+import { Loader2 } from "lucide-react";
+import "../styles/LoadingSpinner.css";
 
 const LoadingSpinner = () => {
   return (

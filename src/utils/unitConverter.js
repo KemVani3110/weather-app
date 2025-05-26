@@ -1,6 +1,6 @@
 export const convertTemperature = (celsius, unit) => {
-  if (unit === 'fahrenheit') {
-    return Math.round((celsius * 9/5) + 32);
+  if (unit === "fahrenheit") {
+    return Math.round((celsius * 9) / 5 + 32);
   }
   return Math.round(celsius);
 };
@@ -10,5 +10,5 @@ export const convertWindSpeed = (meterPerSecond) => {
 };
 
 export const getTemperatureUnit = (unit) => {
-  return unit === 'celsius' ? '°C' : '°F';
+  return unit === "celsius" ? "°C" : "°F";
 };
