@@ -4,25 +4,59 @@
   padding: 0;
 }
 
+:root {
+  --primary-color: #74b9ff;
+  --primary-dark: #0984e3;
+  --success-color: #00b894;
+  --success-dark: #00a085;
+  --error-color: #e74c3c;
+  --warning-color: #f39c12;
+  --text-color: #333;
+  --text-light: #666;
+  --bg-light: rgba(255, 255, 255, 0.95);
+  --bg-semi: rgba(255, 255, 255, 0.1);
+  --border-light: rgba(255, 255, 255, 0.2);
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --gradient: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  background: var(--gradient);
   min-height: 100vh;
-  color: #333;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode {
+  --text-color: #f8f9fa;
+  --text-light: #adb5bd;
+  --bg-light: rgba(33, 37, 41, 0.95);
+  --bg-semi: rgba(33, 37, 41, 0.3);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: var(--gradient);
 }
 
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .app-header {
   text-align: center;
   padding: 2rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-semi);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
 }
 
 .header-content {
@@ -30,11 +64,42 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+}
+
+.header-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.control-btn {
+  background: var(--bg-semi);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 0.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+  background: var(--bg-light);
+  transform: translateY(-2px);
 }
 
 .header-icon {
   color: white;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .app-header h1 {
@@ -42,11 +107,23 @@ body {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: slideInDown 0.8s ease-out;
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .app-header p {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .app-main {
@@ -58,47 +135,93 @@ body {
 }
 
 .error-message {
-  background: rgba(255, 255, 255, 0.95);
-  border-left: 4px solid #e74c3c;
+  background: var(--bg-light);
+  border-left: 4px solid var(--error-color);
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin: 1rem 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 .error-icon {
-  color: #e74c3c;
+  color: var(--error-color);
   flex-shrink: 0;
 }
 
-.error-message p {
-  color: #e74c3c;
+.error-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.error-content p {
+  color: var(--error-color);
   font-weight: 500;
+}
+
+.retry-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--error-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
 }
 
 .welcome-message {
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-light);
   padding: 3rem 2rem;
   border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  animation: zoomIn 0.6s ease-out;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .welcome-icon {
-  color: #74b9ff;
+  color: var(--primary-color);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 .welcome-message p {
   font-size: 1.2rem;
-  color: #666;
+  color: var(--text-light);
 }
 
 @media (max-width: 768px) {
@@ -108,5 +231,15 @@ body {
   
   .app-main {
     padding: 1rem;
+  }
+  
+  .header-controls {
+    position: static;
+    margin-top: 1rem;
+  }
+  
+  .error-content {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

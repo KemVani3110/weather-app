@@ -4,15 +4,22 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-light);
   border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .spinner-icon {
-  color: #74b9ff;
+  color: var(--primary-color);
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(116, 185, 255, 0.3));
 }
 
 @keyframes spin {
@@ -21,6 +28,29 @@
 }
 
 .loading-spinner p {
-  color: #636e72;
+  color: var(--text-light);
   font-size: 1.1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Loading skeleton effect */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+body.dark-mode .loading-skeleton {
+  background: linear-gradient(90deg, #2c3e50 25%, #34495e 50%, #2c3e50 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
